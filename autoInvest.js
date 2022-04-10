@@ -17,12 +17,12 @@ function run() {
         fearAndGreedIndex(function (index) {
             if (index <= 20 && index > 1) {
                 // Extreme Fear
-                // binanceMarketOrder('BUY', 20);
-            } else if (index < 40) {
+                binanceMarketOrder('BUY', 20);
+            } else if (index < 40 && index > 20) {
                 // Fear
-                // binanceMarketOrder('BUY', 10);
+                binanceMarketOrder('BUY', 10);
             } else if (index >= 80) {
-                // binanceMarketOrder('SELL', 10);
+                binanceMarketOrder('SELL', 10);
             } else {
                 // Neutral
                 console.log('Do nothing');
