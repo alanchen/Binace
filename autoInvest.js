@@ -21,7 +21,7 @@ function run() {
             } else if (index <= 40 && index > 20) {
                 // Fear
                 // binanceMarketOrder('BUY', 10);
-            } else if (index > 90) {
+            } else if (index >= 90) {
                 binanceMarketOrder('SELL', 40);
             } else {
                 // Neutral
