@@ -17,9 +17,9 @@ function run() {
         fearAndGreedIndex(function (index) {
             if (index < 20 && index >= 1) {
                 // Extreme Fear
-                binanceMarketOrder('BUY', 80);
-            } else if (index > 80) {
-                binanceMarketOrder('SELL', 10);
+                binanceMarketOrder('BUY', 60);
+            } else if (index >= 80) {
+                binanceMarketOrder('SELL', 20);
             } else {
                 // Neutral
                 console.log('Do nothing');
