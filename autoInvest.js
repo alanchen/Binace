@@ -15,11 +15,12 @@ function run() {
     schedule.scheduleJob('0 30 08 * * *', function () {
         console.log('Run at: ' + new Date());
         fearAndGreedIndex(function (index) {
-            if (index < 20 && index >= 1) {
+            var qty = 50;
+            if (index <= 20 && index >= 1) {
                 // Extreme Fear
-                binanceMarketOrder('BUY', 60);
-            } else if (index >= 80) {
-                binanceMarketOrder('SELL', 20);
+                binanceMarketOrder('BUY', qty);
+            } else if (index > 90) {
+                binanceMarketOrder('SELL', qty/5);
             } else {
                 // Neutral
                 console.log('Do nothing');

@@ -20,7 +20,7 @@ fngData.forEach(function (item) {
     } else if (date.includes('2021')) {
         fngList.push(item);
     } else if (date.includes('2020')) {
-        fngList.push(item);
+        // fngList.push(item);
     } else if (date.includes('2019')) {
         // fngList.push(item);
     } else if (date.includes('2018')) {
@@ -90,12 +90,12 @@ function mixplan() {
     var max = 0;
     fngList.forEach(function (item) {
         var price = btcList[item.date];
-        if (item.value < 20) {
-            btc = btc + 60 / price;
-            invest = invest + 60;
-        }else if(item.value >= 80){
-            btc = btc - 20 / price;
-            invest = invest - 20;
+        if (item.value <= 20) {
+            btc = btc + 50 / price;
+            invest = invest + 50;
+        }else if(item.value > 90){
+            btc = btc - 10 / price;
+            invest = invest - 10;
         }
         max = Math.max(max, invest);
     });
