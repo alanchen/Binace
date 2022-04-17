@@ -1,34 +1,41 @@
 
 var schedule = require('node-schedule');
 var axios = require('axios');
+var moment = require('moment');
 const https = require('https');
 const { Spot } = require('@binance/connector');
 require('dotenv').config()
+const { Webhook } = require('discord-webhook-node');
+const hook = new Webhook(process.env.DISCORD_WEBHOOK);
 
 run();
 
 function run() {
-    schedule.scheduleJob('0 0 * * * *', function () {
-        console.log('Still running at: ' + new Date());
-    });
-
     schedule.scheduleJob('0 30 08 * * *', function () {
-        console.log('Run at: ' + new Date());
         fearAndGreedIndex(function (index) {
             var qty = 50;
             if (index <= 20 && index >= 1) {
                 // Extreme Fear
                 binanceMarketOrder('BUY', qty);
+                discordWebhook('Index = ' + index + ', buy ' + qty +' usd');
             } else if (index < 30) {
-                binanceMarketOrder('BUY', qty/5);
+                binanceMarketOrder('BUY', 10);
+                discordWebhook('Index = ' + index + ', buy ' + 10 +' usd');
             } else if (index > 90) {
-                binanceMarketOrder('SELL', qty/5);
+                binanceMarketOrder('SELL', 10);
+                discordWebhook('Index = ' + index + ', sell ' + 10 +' usd');
             } else {
                 // Neutral
                 console.log('Do nothing');
             }
         });
     });
+}
+
+function discordWebhook(msg) {
+    var date = moment(Date.now()).format('YYYY-MM-DD');
+    let text = `[ ${date} ]\n${msg}`;
+    hook.send(text);
 }
 
 function fearAndGreedIndex(callback) {
