@@ -26,7 +26,7 @@ function run() {
                 discordWebhook('Index = ' + index + ', sell ' + 10 +' usd');
             } else {
                 // Neutral
-                console.log('Do nothing');
+                discordWebhook('Index = ' + index + ', do nothing');
             }
         });
     });
