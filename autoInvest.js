@@ -30,7 +30,7 @@ function run() {
                 binanceMarketOrder('SELL', 10, notify);
             } else {
                 // Neutral
-                discordWebhook('Index = ' + index + ', do nothing', notify);
+                discordWebhook('Index = ' + index + ', do nothing');
             }
         });
     });
