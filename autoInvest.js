@@ -14,21 +14,24 @@ function run() {
     schedule.scheduleJob('0 30 08 * * *', function () {
         fearAndGreedIndex(function (index) {
             var qty = 50;
+            var notify = function (price){
+                discordWebhook('Filled price: ' + price);
+                balance();
+            };
             if (index <= 20 && index >= 1) {
                 // Extreme Fear
                 discordWebhook('Index = ' + index + ', buy ' + qty + ' usd');
-                binanceMarketOrder('BUY', qty, function (price){discordWebhook('Filled price: ' + price);});
+                binanceMarketOrder('BUY', qty, notify);
             } else if (index < 30) {
                 discordWebhook('Index = ' + index + ', buy ' + 10 + ' usd');
-                binanceMarketOrder('BUY', 10, function (price){discordWebhook('Filled price: ' + price);});
+                binanceMarketOrder('BUY', 10, notify);
             } else if (index > 90) {
                 discordWebhook('Index = ' + index + ', sell ' + 10 + ' usd');
-                binanceMarketOrder('SELL', 10, function (price){discordWebhook('Filled price: ' + price);});
+                binanceMarketOrder('SELL', 10, notify);
             } else {
                 // Neutral
-                discordWebhook('Index = ' + index + ', do nothing', function (price){discordWebhook('Filled price: ' + price);});
+                discordWebhook('Index = ' + index + ', do nothing', notify);
             }
-            balance();
         });
     });
 }
@@ -87,7 +90,6 @@ function binanceMarketOrder(op = 'BUY', qty = 10, callback = null) {
         var fills = response.data.fills;
         var fill = fills[0];
         var filledPrice = fill.price;
-        client.logger.log(filledPrice);
         if(callback){ callback(filledPrice); }
     }).catch(error => client.logger.error(error))
 }
