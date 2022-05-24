@@ -16,18 +16,19 @@ function run() {
             var qty = 50;
             if (index <= 20 && index >= 1) {
                 // Extreme Fear
-                binanceMarketOrder('BUY', qty);
-                discordWebhook('Index = ' + index + ', buy ' + qty +' usd');
+                discordWebhook('Index = ' + index + ', buy ' + qty + ' usd');
+                binanceMarketOrder('BUY', qty, function (price){discordWebhook('Filled price: ' + price);});
             } else if (index < 30) {
-                binanceMarketOrder('BUY', 10);
-                discordWebhook('Index = ' + index + ', buy ' + 10 +' usd');
+                discordWebhook('Index = ' + index + ', buy ' + 10 + ' usd');
+                binanceMarketOrder('BUY', 10, function (price){discordWebhook('Filled price: ' + price);});
             } else if (index > 90) {
-                binanceMarketOrder('SELL', 10);
-                discordWebhook('Index = ' + index + ', sell ' + 10 +' usd');
+                discordWebhook('Index = ' + index + ', sell ' + 10 + ' usd');
+                binanceMarketOrder('SELL', 10, function (price){discordWebhook('Filled price: ' + price);});
             } else {
                 // Neutral
-                discordWebhook('Index = ' + index + ', do nothing');
+                discordWebhook('Index = ' + index + ', do nothing', function (price){discordWebhook('Filled price: ' + price);});
             }
+            balance();
         });
     });
 }
@@ -58,7 +59,20 @@ function fearAndGreedIndex(callback) {
         });
 }
 
-function binanceMarketOrder(op = 'BUY', qty = 10) {
+function balance(asset = 'BUSD') {
+    const apiKey = process.env.BINANCE_API_KEY;
+    const apiSecret = process.env.BINANCE_API_SECRET;
+    const client = new Spot(apiKey, apiSecret);
+    client.account().then(response => {
+        var data = response.data;
+        var balances = data.balances;
+        const found = balances.find(element => element['asset'] == asset);
+        var balance = found.free;
+        discordWebhook('BUSD balance = ' + balance);
+    })
+}
+
+function binanceMarketOrder(op = 'BUY', qty = 10, callback = null) {
     // https://github.com/binance/binance-connector-node
     const apiKey = process.env.BINANCE_API_KEY;
     const apiSecret = process.env.BINANCE_API_SECRET;
@@ -68,6 +82,12 @@ function binanceMarketOrder(op = 'BUY', qty = 10) {
     var type = 'MARKET'; // LIMIT
     client.newOrder(symbol, op, type, {
         quoteOrderQty: qty,
-    }).then(response => client.logger.log(response.data))
-        .catch(error => client.logger.error(error))
+    }).then(response => {
+        client.logger.log(response.data);
+        var fills = response.data.fills;
+        var fill = fills[0];
+        var filledPrice = fill.price;
+        client.logger.log(filledPrice);
+        if(callback){ callback(filledPrice); }
+    }).catch(error => client.logger.error(error))
 }
