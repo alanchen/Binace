@@ -34,12 +34,44 @@ function run() {
             }
         });
     });
+
+    var rule = new schedule.RecurrenceRule();
+    rule.hour = new schedule.Range(0,23,6);
+    rule.minute = 40;
+    schedule.scheduleJob(rule, function () {
+        openseaFloorPrice('murmurcats', function (price) {
+            discordWebhook('murmurcats floor price: ' + price);
+        });
+        openseaFloorPrice('fomo-dog-club', function (price) {
+            discordWebhook('fomodog floor price: ' + price);
+        });
+    });
 }
 
 function discordWebhook(msg) {
-    var date = moment(Date.now()).format('YYYY-MM-DD');
-    let text = `[ ${date} ]\n${msg}`;
-    hook.send(text);
+    // var date = moment(Date.now()).format('YYYY-MM-DD');
+    // let text = `[ ${date} ]\n${msg}`;
+    hook.send(msg);
+}
+
+function openseaFloorPrice(name, callback) {
+    const url = 'https://api.opensea.io/api/v1/collection/' + name;
+
+    // At request level
+    const agent = new https.Agent({
+        rejectUnauthorized: false
+    });
+
+    axios.get(url, { httpsAgent: agent })
+        .then(res => {
+            let stats = res.data.collection.stats;
+            let floor = stats.floor_price;
+            console.log(floor);
+            callback(floor);
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function fearAndGreedIndex(callback) {
@@ -90,6 +122,6 @@ function binanceMarketOrder(op = 'BUY', qty = 10, callback = null) {
         var fills = response.data.fills;
         var fill = fills[0];
         var filledPrice = fill.price;
-        if(callback){ callback(filledPrice); }
+        if (callback) { callback(filledPrice); }
     }).catch(error => client.logger.error(error))
 }
