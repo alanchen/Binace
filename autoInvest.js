@@ -13,7 +13,7 @@ run();
 function run() {
     schedule.scheduleJob('0 30 08 * * *', function () {
         fearAndGreedIndex(function (index) {
-            var qty = 50;
+            var qty = 30;
             var notify = function (price){
                 discordWebhook('Filled price: ' + price);
                 balance();
@@ -36,8 +36,8 @@ function run() {
     });
 
     var rule = new schedule.RecurrenceRule();
-    rule.hour = new schedule.Range(0,23,6);
-    rule.minute = 40;
+    rule.hour = new schedule.Range(0,23,2);
+    rule.minute = 30;
     schedule.scheduleJob(rule, function () {
         openseaFloorPrice('murmurcats', function (price) {
             discordWebhook('murmurcats floor price: ' + price);
