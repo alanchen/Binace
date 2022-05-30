@@ -37,13 +37,16 @@ function run() {
 
     var rule = new schedule.RecurrenceRule();
     rule.hour = new schedule.Range(0,23,2);
-    rule.minute = 30;
+    rule.minute = 40;
     schedule.scheduleJob(rule, function () {
         openseaFloorPrice('murmurcats', function (price) {
             discordWebhook('murmurcats floor price: ' + price);
         });
         openseaFloorPrice('fomo-dog-club', function (price) {
             discordWebhook('fomodog floor price: ' + price);
+        });
+        openseaFloorPrice('black-whales-club-pass-official', function (price) {
+            discordWebhook('BWP floor price: ' + price);
         });
     });
 }
