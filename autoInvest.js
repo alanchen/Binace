@@ -40,13 +40,17 @@ function run() {
     rule.minute = 40;
     schedule.scheduleJob(rule, function () {
         openseaFloorPrice('murmurcats', function (price) {
-            discordWebhook('murmurcats floor price: ' + price);
+            if(price <= 2.0){
+                discordWebhook('murmurcats floor price: ' + price);
+            }
         });
-        openseaFloorPrice('fomo-dog-club', function (price) {
-            discordWebhook('fomodog floor price: ' + price);
-        });
+        // openseaFloorPrice('fomo-dog-club', function (price) {
+        //     discordWebhook('fomodog floor price: ' + price);
+        // });
         openseaFloorPrice('black-whales-club-pass-official', function (price) {
-            discordWebhook('BWP floor price: ' + price);
+            if(price <= 0.07){
+                discordWebhook('BWP floor price: ' + price);
+            }
         });
     });
 }
