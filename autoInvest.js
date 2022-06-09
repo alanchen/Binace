@@ -42,14 +42,16 @@ function run() {
         openseaFloorPrice('murmurcats', function (price) {
             if(price <= 2.0){
                 discordWebhook('murmurcats floor price: ' + price);
+                discordWebhook('murmurcats : https://opensea.io/collection/murmurcats');
             }
         });
         // openseaFloorPrice('fomo-dog-club', function (price) {
         //     discordWebhook('fomodog floor price: ' + price);
         // });
         openseaFloorPrice('black-whales-club-pass-official', function (price) {
-            if(price <= 0.07){
+            if(price <= 0.06){
                 discordWebhook('BWP floor price: ' + price);
+                discordWebhook('BWP : https://opensea.io/collection/black-whales-club-pass-official');
             }
         });
     });
