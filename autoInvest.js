@@ -48,12 +48,6 @@ function run() {
         // openseaFloorPrice('fomo-dog-club', function (price) {
         //     discordWebhook('fomodog floor price: ' + price);
         // });
-        openseaFloorPrice('black-whales-club-pass-official', function (price) {
-            if(price <= 0.06){
-                discordWebhook('BWP floor price: ' + price);
-                discordWebhook('BWP : https://opensea.io/collection/black-whales-club-pass-official');
-            }
-        });
     });
 }
 
