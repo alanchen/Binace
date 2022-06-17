@@ -11,35 +11,35 @@ const hook = new Webhook(process.env.DISCORD_WEBHOOK);
 run();
 
 function run() {
-    // schedule.scheduleJob('0 30 08 * * *', function () {
-    //     fearAndGreedIndex(function (index) {
-    //         var notify = function (op, qty, price) {
-    //             binanceBalance('BUSD' ,function (b) {
-    //                 discordETHWebhook(index, op, qty, price, b);
-    //             });
-    //         };
-    //         if (index <= 20 && index >= 1) {
-    //             // Extreme Fear
-    //             binanceMarketOrder('BUY', 30, notify);
-    //         } else if (index < 30) {
-    //             binanceMarketOrder('BUY', 10, notify);
-    //         } else if (index > 90) {
-    //             binanceMarketOrder('SELL', 10, notify);
-    //         } else {
-    //             // Neutral
-    //         }
-    //     });
-    // });
-
-    var rule = new schedule.RecurrenceRule();
-    rule.hour = new schedule.Range(0, 23, 6);
-    rule.minute = 25;
-    schedule.scheduleJob(rule, function () {
-        let nft = 'murmurcats';
-        openseaFloorPrice(nft, function (price) {
-            discordNFTWebhook(nft, price);
+    schedule.scheduleJob('0 30 08 * * *', function () {
+        fearAndGreedIndex(function (index) {
+            var notify = function (op, qty, price) {
+                binanceBalance('BUSD' ,function (b) {
+                    discordETHWebhook(index, op, qty, price, b);
+                });
+            };
+            if (index <= 20 && index >= 1) {
+                // Extreme Fear
+                binanceMarketOrder('BUY', 10, notify);
+            } else if (index < 30) {
+                binanceMarketOrder('BUY', 10, notify);
+            } else if (index > 90) {
+                binanceMarketOrder('SELL', 10, notify);
+            } else {
+                // Neutral
+            }
         });
     });
+
+    // var rule = new schedule.RecurrenceRule();
+    // rule.hour = new schedule.Range(0, 23, 6);
+    // rule.minute = 25;
+    // schedule.scheduleJob(rule, function () {
+    //     let nft = 'murmurcats';
+    //     openseaFloorPrice(nft, function (price) {
+    //         discordNFTWebhook(nft, price);
+    //     });
+    // });
 }
 
 function discordNFTWebhook(name, floor = 0.0) {
