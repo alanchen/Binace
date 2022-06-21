@@ -20,7 +20,7 @@ function run() {
             };
             if (index <= 20 && index >= 1) {
                 // Extreme Fear
-                binanceMarketOrder('BUY', 10, notify);
+                binanceMarketOrder('BUY', 20, notify);
             } else if (index < 30) {
                 binanceMarketOrder('BUY', 10, notify);
             } else if (index > 90) {
@@ -31,15 +31,15 @@ function run() {
         });
     });
 
-    // var rule = new schedule.RecurrenceRule();
-    // rule.hour = new schedule.Range(0, 23, 6);
-    // rule.minute = 25;
-    // schedule.scheduleJob(rule, function () {
-    //     let nft = 'murmurcats';
-    //     openseaFloorPrice(nft, function (price) {
-    //         discordNFTWebhook(nft, price);
-    //     });
-    // });
+    var rule = new schedule.RecurrenceRule();
+    rule.hour = new schedule.Range(0, 23, 12);
+    rule.minute = 25;
+    schedule.scheduleJob(rule, function () {
+        let nft = 'murmurcats';
+        openseaFloorPrice(nft, function (price) {
+            discordNFTWebhook(nft, price);
+        });
+    });
 }
 
 function discordNFTWebhook(name, floor = 0.0) {
