@@ -20,8 +20,10 @@ function run() {
             };
             if (index <= 20 && index >= 1) {
                 // Extreme Fear
+                binanceMarketOrder('BUY', 30, notify);
+            } else if (index <= 30) {
                 binanceMarketOrder('BUY', 20, notify);
-            } else if (index < 30) {
+            } else if (index < 40) {
                 binanceMarketOrder('BUY', 10, notify);
             } else if (index > 90) {
                 binanceMarketOrder('SELL', 10, notify);
