@@ -42,6 +42,13 @@ function run() {
             discordNFTWebhook(nft, price);
         });
     });
+
+    schedule.scheduleJob(rule, function () {
+        let nft = 'fomo-dog-club';
+        openseaFloorPrice(nft, function (price) {
+            discordNFTWebhook(nft, price);
+        });
+    });
 }
 
 function discordNFTWebhook(name, floor = 0.0) {
