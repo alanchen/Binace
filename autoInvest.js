@@ -138,7 +138,7 @@ function binanceMarketOrder(op = 'BUY', qty = 10, callback = null) {
     const apiSecret = process.env.BINANCE_API_SECRET;
     const client = new Spot(apiKey, apiSecret);
 
-    var symbol = 'ETHBUSD';
+    var symbol = 'BTCBUSD';
     var type = 'MARKET'; // LIMIT
     client.newOrder(symbol, op, type, {
         quoteOrderQty: qty,
