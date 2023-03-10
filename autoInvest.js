@@ -14,7 +14,7 @@ function run() {
     schedule.scheduleJob('0 30 08 * * *', function () {
         fearAndGreedIndex(function (index) {
             var notify = function (op, qty, price) {
-                binanceBalance('BUSD' ,function (b) {
+                binanceBalance('USDT' ,function (b) {
                     discordETHWebhook(index, op, qty, price, b);
                 });
             };
@@ -119,7 +119,7 @@ function fearAndGreedIndex(callback) {
         });
 }
 
-function binanceBalance(asset = 'BUSD', callback) {
+function binanceBalance(asset = 'USDT', callback) {
     const apiKey = process.env.BINANCE_API_KEY;
     const apiSecret = process.env.BINANCE_API_SECRET;
     const client = new Spot(apiKey, apiSecret);
@@ -138,7 +138,7 @@ function binanceMarketOrder(op = 'BUY', qty = 10, callback = null) {
     const apiSecret = process.env.BINANCE_API_SECRET;
     const client = new Spot(apiKey, apiSecret);
 
-    var symbol = 'BTCBUSD';
+    var symbol = 'BTCUSDT';
     var type = 'MARKET'; // LIMIT
     client.newOrder(symbol, op, type, {
         quoteOrderQty: qty,
